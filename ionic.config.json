@@ -1,0 +1,7 @@
+{
+  "name": "hazmandaditos",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
