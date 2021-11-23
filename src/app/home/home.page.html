@@ -1,12 +1,15 @@
-<ion-header [translucent]="true" mode="md">
+<ion-header mode="md" class="ion-no-border" translucent="true">
   <ion-toolbar>
+    <ion-button slot="start" class="menu-button">
+      <ion-icon name="menu"></ion-icon>
+    </ion-button>
     <ion-title class="ion-text-left">
       Haz Mandaditos
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
 
   <div id="mapa-mapbox"></div>
 

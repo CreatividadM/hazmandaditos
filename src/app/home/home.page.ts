@@ -34,17 +34,8 @@ export class HomePage implements OnInit {
   ionViewDidEnter(){
     //this.getRepartidores();
     this.getMapBox();
-    this.getGeolocation();
   }
 
-  async getGeolocation(){
-
-    await this.geolocation.getCurrentPosition().then((resp) =>{
-      console.log(resp);
-      this.market(resp.coords.longitude,resp.coords.latitude);
-    })
-
-  }
   /*<!--
       |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
       | Funcion para mostrar el mapa
@@ -52,39 +43,45 @@ export class HomePage implements OnInit {
       !-->
   */
   getMapBox(){
-    console.log("Get MapBox");
 
-    Mapboxgl.accessToken = environment.mapBoxKey;
+    (Mapboxgl as any).accessToken = environment.mapBoxKey;
+    
+    //Obtengo mi posición actual al cargar el mapa.
+    this.geolocation.getCurrentPosition().then( result =>{
+      console.log("Coordenadas:", result);
 
-    this.mapa = new Mapboxgl.Map({
-      container: 'mapa-mapbox', // container ID
-      style: 'mapbox://styles/creatividadmovil/ckw1jb0y42lcr15p1lobac6om', // style URL
-      center: [-100.0024091, 25.5680313], // starting position [lng, lat]
-      zoom: 13 // starting zoom
+      //Cargo el mapa
+      this.mapa = new Mapboxgl.Map({
+        container: 'mapa-mapbox', // container ID
+        style: 'mapbox://styles/creatividadmovil/ckw1jb0y42lcr15p1lobac6om', // style URL
+        center: [result.coords.longitude, result.coords.latitude], // starting position [lng, lat]
+        zoom: 13 // starting zoom
+      })
+
+      //Coloco mi marker de mi posicion
+      this.miMarker(result.coords.longitude,result.coords.latitude);
+
+      //Control de geolocations LocalUser
+      this.mapa.addControl(
+        new Mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy:true
+          },
+          trackUserLocation:true,
+          showUserHeading:true
+        })
+      )
+
     })
     
-    //Agregar boton de geolocations
-    
-
   }
 
-  /*<!--
-      |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
-      | Mostrar Alert
-      |‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
-      !-->
-  */
-  async getRepartidores(){
-    const alert = await this.alertCtrl.create({
-      cssClass: "customalert",
-      header: "Buscando Repartidores",
-      message:"Estamos localizando repartidores presentes.",
-      buttons: ['OK']
-    })
-
-    await alert.present();
+  miMarker(lng:number,lat:number){
+    //console.log("Resivo coords", lng,lat);
+    const marker = new Mapboxgl.Marker()
+    .setLngLat([lng, lat])
+    .addTo( this.mapa );
   }
-
 
   async loading(){
 
@@ -103,12 +100,6 @@ export class HomePage implements OnInit {
     this.mapbox.getaddressApi(25.5680313,-100.0024091).subscribe(result =>{
       console.log("Data API:", result);
     })
-  }
-
-  market(lng:number,lat:number){
-    const marker = new Mapboxgl.Marker()
-    .setLngLat([lng, lat])
-    .addTo( this.mapa );
   }
 
 }

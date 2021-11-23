@@ -1,4 +1,11 @@
-#mapbox{
-  width: 100%;
-  height: 100%;
+ion-header{
+  ion-toolbar{
+    --background: transparent;
+  }
+}
+ion-content{
+  #mapa-mapbox{
+    width: 100%;
+    height: 100%;
+  }
 }
