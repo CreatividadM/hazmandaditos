@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'hazmandaditos',
+  appId: 'com.creatividadmovil.hazmandaditos',
+  appName: 'Hazmandaditos',
   webDir: 'www',
   bundledWebRuntime: false
 };
