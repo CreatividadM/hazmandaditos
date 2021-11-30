@@ -72,6 +72,8 @@ export class HomePage implements OnInit {
         })
       )
 
+    }).catch( err =>{
+      console.error("Error de obtener coords", err);
     })
     
   }

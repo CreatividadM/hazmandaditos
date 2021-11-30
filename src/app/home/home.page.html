@@ -1,5 +1,5 @@
-<ion-header mode="md" class="ion-no-border" translucent="true">
-  <ion-toolbar>
+<!--<ion-header mode="md" class="ion-no-border" translucent="true">
+  <ion-toolbar mode="md">
     <ion-button slot="start" class="menu-button">
       <ion-icon name="menu"></ion-icon>
     </ion-button>
@@ -7,10 +7,19 @@
       Haz Mandaditos
     </ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
-<ion-content [fullscreen]="true">
-
+<ion-content fullscreen>
   <div id="mapa-mapbox"></div>
-
+  <ion-fab vertical="top" horizontal="start" slot="fixed">
+    <ion-fab-button color="secondary">
+      <ion-icon name="menu"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-item mode="md" lines="none">
+    <ion-label>
+      Haz Mandaditos
+    </ion-label>
+  </ion-item>
+  
 </ion-content>
